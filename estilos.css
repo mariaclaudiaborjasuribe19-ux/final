@@ -1,100 +1,98 @@
-/* Estilos generales */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f9fc;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
+/* Reset básico */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
 
-header {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 30px 0;
-    margin-bottom: 30px;
-}
+body { background-color: #f4f4f9; color: #333; padding: 20px; }
 
-h1 {
-    margin: 0;
-    font-size: 36px;
-}
+.container { max-width: 1200px; margin: 0 auto; }
 
-section {
-    margin: 30px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-}
+h1 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
+p { text-align: center; margin-bottom: 30px; }
 
-h2 {
-    color: #007bff;
-    text-align: center;
-}
-
-form {
-    display: grid;
+/* Layout principal: Inputs a la izquierda, Resultados a la derecha */
+.main-layout {
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
-    max-width: 700px;
-    margin: auto;
 }
 
-label {
-    font-size: 16px;
-    font-weight: bold;
+/* --- ESTILO DE LA LISTA VERTICAL DE INPUTS --- */
+.input-section {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-input[type="number"] {
-    padding: 12px;
-    font-size: 16px;
+h2, h3 { margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+h3 { color: #555; font-size: 1.1rem; margin-top: 20px; }
+
+/* Cada par Label + Input en vertical */
+.input-group {
+    display: flex;
+    flex-direction: column; /* Esto hace la lista vertical */
+    margin-bottom: 12px;
+}
+
+.input-group label { font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+
+.input-group input {
+    padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-input[type="number"]:focus {
-    outline: none;
-    border-color: #007bff;
+    border-radius: 4px;
 }
 
 button {
-    padding: 14px;
-    background-color: #28a745;
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
     color: white;
-    font-size: 18px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    background-color: #218838;
-}
-
-#resultados {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #e9f7ef;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-#grafico canvas {
-    background-color: #fafafa;
     margin-top: 20px;
-    width: 100%;
-    height: 400px; /* Puedes ajustar la altura según sea necesario */
+    transition: background 0.3s;
 }
 
-footer {
-    background-color: #343a40;
-    color: white;
-    text-align: center;
+button:hover { background-color: #2980b9; }
+
+/* --- ESTILO DE RESULTADOS --- */
+.results-section {
+    flex: 2;
+    min-width: 300px;
+    background: white;
     padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-footer p {
-    margin: 0;
+.text-output {
+    white-space: pre-line; /* Respeta los saltos de línea */
+    background: #f8f9fa;
+    padding: 15px;
+    border-left: 5px solid #3498db;
+    margin-bottom: 20px;
+    font-family: monospace;
+}
+
+/* Grilla de gráficas 2x2 */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.chart-container {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 5px;
+    min-height: 250px;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    .main-layout { flex-direction: column; }
+    .charts-grid { grid-template-columns: 1fr; }
 }
