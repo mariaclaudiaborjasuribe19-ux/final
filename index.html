@@ -3,75 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación al Agua de Mina</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Evaluación de Calidad de Agua - LPM</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <header>
-        <h1>Evaluación al Agua de Mina</h1>
-    </header>
+    <div class="container">
+        <h1>💧 Evaluación de Agua de Mina</h1>
+        <p>Ingrese los parámetros para calcular según el Límite Máximo Permisible.</p>
 
-    <section id="formulario">
-        <h2>Introduce los valores de los parámetros del agua</h2>
+        <div class="main-layout">
+            <div class="input-section">
+                <h2>Ingreso de Datos</h2>
+                <form id="waterForm">
+                    <h3>Físicoquímicos</h3>
+                    <div class="input-group">
+                        <label>pH:</label>
+                        <input type="number" id="ph" step="0.1" value="7">
+                    </div>
+                    <div class="input-group">
+                        <label>SST (mg/L):</label>
+                        <input type="number" id="sst" step="0.1" value="10">
+                    </div>
+                    <div class="input-group">
+                        <label>Aceites y Grasas (mg/L):</label>
+                        <input type="number" id="aceites" step="0.1" value="5">
+                    </div>
 
-        <form id="formulario">
-            <label for="ph">pH:</label>
-            <input type="number" id="ph" name="ph" step="0.01" required>
+                    <h3>Metales Esenciales</h3>
+                    <div class="input-group">
+                        <label>Cobre Total (mg/L):</label>
+                        <input type="number" id="cobre" step="0.01" value="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Hierro Total (mg/L):</label>
+                        <input type="number" id="hierro" step="0.01" value="0.5">
+                    </div>
+                    <div class="input-group">
+                        <label>Zinc Total (mg/L):</label>
+                        <input type="number" id="zinc" step="0.01" value="0.5">
+                    </div>
 
-            <label for="sst">SST (mg/L):</label>
-            <input type="number" id="sst" name="sst" step="0.01" required>
+                    <h3>Compuestos Tóxicos</h3>
+                    <div class="input-group">
+                        <label>Arsénico Total (mg/L):</label>
+                        <input type="number" id="arsenico" step="0.001" value="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label>Cadmio Total (mg/L):</label>
+                        <input type="number" id="cadmio" step="0.001" value="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label>Cromo Hexavalente (mg/L):</label>
+                        <input type="number" id="cromo" step="0.001" value="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label>Mercurio Total (mg/L):</label>
+                        <input type="number" id="mercurio" step="0.0001" value="0.001">
+                    </div>
+                    <div class="input-group">
+                        <label>Cianuro Total (mg/L):</label>
+                        <input type="number" id="cianuro" step="0.01" value="0.1">
+                    </div>
 
-            <label for="aceitesygrasas">Aceites y Grasas (mg/L):</label>
-            <input type="number" id="aceitesygrasas" name="aceitesygrasas" step="0.01" required>
+                    <button type="button" onclick="evaluar()">Evaluar Calidad</button>
+                </form>
+            </div>
 
-            <label for="cobre">Cobre Total (mg/L):</label>
-            <input type="number" id="cobre" name="cobre" step="0.01" required>
+            <div class="results-section">
+                <h2>Resultados del Análisis</h2>
+                <div id="textResult" class="text-output">Los resultados aparecerán aquí...</div>
+                
+                <div class="charts-grid">
+                    <div class="chart-container"><canvas id="chartBar"></canvas></div>
+                    <div class="chart-container"><canvas id="chartLine"></canvas></div>
+                    <div class="chart-container"><canvas id="chartScatter"></canvas></div>
+                    <div class="chart-container"><canvas id="chartHBar"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <label for="hierro">Hierro Total (mg/L):</label>
-            <input type="number" id="hierro" name="hierro" step="0.01" required>
-
-            <label for="zinc">Zinc Total (mg/L):</label>
-            <input type="number" id="zinc" name="zinc" step="0.01" required>
-
-            <label for="arsenico">Arsénico Total (mg/L):</label>
-            <input type="number" id="arsenico" name="arsenico" step="0.01" required>
-
-            <label for="cadmio">Cadmio Total (mg/L):</label>
-            <input type="number" id="cadmio" name="cadmio" step="0.01" required>
-
-            <label for="cromo">Cromo Hexavalente (mg/L):</label>
-            <input type="number" id="cromo" name="cromo" step="0.01" required>
-
-            <label for="mercurio">Mercurio Total (mg/L):</label>
-            <input type="number" id="mercurio" name="mercurio" step="0.01" required>
-
-            <label for="cianuro">Cianuro Total (mg/L):</label>
-            <input type="number" id="cianuro" name="cianuro" step="0.01" required>
-
-            <button type="submit" id="evaluarBtn">Evaluar</button>
-        </form>
-    </section>
-
-    <section id="resultados">
-        <h2>Resultados del Análisis</h2>
-        <pre id="textResultados"></pre>
-    </section>
-
-    <section id="grafico">
-        <h2>Gráficos</h2>
-        <canvas id="graficoBarras"></canvas>
-        <canvas id="graficoLineas"></canvas>
-        <canvas id="graficoDispersion"></canvas>
-        <canvas id="graficoBarrasHorizontales"></canvas>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Evaluación al Agua de Mina | Todos los derechos reservados</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
