@@ -84,6 +84,8 @@ button:hover {
 #grafico canvas {
     background-color: #fafafa;
     margin-top: 20px;
+    width: 100%;
+    height: 400px; /* Puedes ajustar la altura según sea necesario */
 }
 
 footer {
