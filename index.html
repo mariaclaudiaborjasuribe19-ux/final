@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación del Agua de Mina</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Logo Agua Mina" class="logo">
+        <h1>Evaluación del Agua de Mina según LPM</h1>
+    </header>
+
+    <section id="formulario">
+        <h2>Introduce los valores de los parámetros del agua</h2>
+
+        <form id="formulario">
+            <label for="ph">pH:</label>
+            <input type="number" id="ph" name="ph" required>
+
+            <label for="sst">SST (mg/L):</label>
+            <input type="number" id="sst" name="sst" required>
+
+            <label for="aceitesygrasas">Aceites y Grasas (mg/L):</label>
+            <input type="number" id="aceitesygrasas" name="aceitesygrasas" required>
+
+            <label for="cobre">Cobre Total (mg/L):</label>
+            <input type="number" id="cobre" name="cobre" required>
+
+            <label for="hierro">Hierro Total (mg/L):</label>
+            <input type="number" id="hierro" name="hierro" required>
+
+            <label for="zinc">Zinc Total (mg/L):</label>
+            <input type="number" id="zinc" name="zinc" required>
+
+            <label for="arsenico">Arsénico Total (mg/L):</label>
+            <input type="number" id="arsenico" name="arsenico" required>
+
+            <label for="cadmio">Cadmio Total (mg/L):</label>
+            <input type="number" id="cadmio" name="cadmio" required>
+
+            <label for="cromo">Cromo Hexavalente (mg/L):</label>
+            <input type="number" id="cromo" name="cromo" required>
+
+            <label for="mercurio">Mercurio Total (mg/L):</label>
+            <input type="number" id="mercurio" name="mercurio" required>
+
+            <label for="cianuro">Cianuro Total (mg/L):</label>
+            <input type="number" id="cianuro" name="cianuro" required>
+
+            <button type="submit" id="evaluarBtn">Evaluar</button>
+        </form>
+    </section>
+
+    <section id="resultados">
+        <h2>Resultados del Análisis</h2>
+        <pre id="textResultados"></pre>
+    </section>
+
+    <section id="grafico">
+        <h2>Gráficos</h2>
+        <canvas id="graficoBarras"></canvas>
+        <canvas id="graficoLineas"></canvas>
+        <canvas id="graficoDispersion"></canvas>
+        <canvas id="graficoBarrasHorizontales"></canvas>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Evaluación del Agua de Mina | Todos los derechos reservados</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
 
