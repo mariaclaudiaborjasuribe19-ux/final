@@ -80,19 +80,106 @@ function evaluarCompuestostoxicos(arsenico, cadmio, cromo, mercurio, cianuro) {
     return resultados;
 }
 
-// Función para graficar
+// Esta función se llama cuando se envía el formulario y se deben mostrar los resultados
 function graficar(ph, sst, aceitesygrasas, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro) {
+    // Datos para los gráficos
+    const parametros = ["pH", "SST", "Aceites y Grasas", "Cobre", "Hierro", "Zinc", "Arsénico", "Cadmio", "Cromo", "Mercurio", "Cianuro"];
+    const valores = [ph, sst, aceitesygrasas, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro];
+
     // Gráfico de barras
     new Chart(document.getElementById("graficoBarras"), {
         type: 'bar',
         data: {
-            labels: ["pH", "SST", "Aceites y Grasas", "Cobre", "Hierro", "Zinc", "Arsénico", "Cadmio", "Cromo", "Mercurio", "Cianuro"],
+            labels: parametros,
             datasets: [{
                 label: 'Concentración (mg/L)',
-                data: [ph, sst, aceitesygrasas, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro],
+                data: valores,
                 backgroundColor: 'skyblue',
                 borderColor: 'blue',
                 borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            },
+            responsive: true,
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+
+    // Gráfico de líneas
+    new Chart(document.getElementById("graficoLineas"), {
+        type: 'line',
+        data: {
+            labels: parametros,
+            datasets: [{
+                label: 'Concentración (mg/L)',
+                data: valores,
+                borderColor: 'orange',
+                backgroundColor: 'transparent',
+                fill: false,
+                borderWidth: 2,
+                tension: 0.3
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            },
+            responsive: true
+        }
+    });
+
+    // Gráfico de dispersión (scatter)
+    new Chart(document.getElementById("graficoDispersion"), {
+        type: 'scatter',
+        data: {
+            labels: parametros,
+            datasets: [{
+                label: 'Concentración (mg/L)',
+                data: valores.map((value, index) => ({ x: index, y: value })),
+                backgroundColor: 'green',
+                borderColor: 'green',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: { autoSkip: false }
+                },
+                y: { beginAtZero: true }
+            },
+            responsive: true
+        }
+    });
+
+    // Gráfico de barras horizontales
+    new Chart(document.getElementById("graficoBarrasHorizontales"), {
+        type: 'bar',
+        data: {
+            labels: parametros,
+            datasets: [{
+                label: 'Concentración (mg/L)',
+                data: valores,
+                backgroundColor: 'lightcoral',
+                borderColor: 'red',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',  // Para barras horizontales
+            scales: {
+                x: { beginAtZero: true }
+            },
+            responsive: true
+        }
+    });
+}
+
             }]
         },
         options: {
