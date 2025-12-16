@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación del Agua de Mina</title>
+    <title>Evaluación al Agua de Mina</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <header>
-        <img src="logo.png" alt="Logo Agua Mina" class="logo">
-        <h1>Evaluación del Agua de Mina según LPM</h1>
+        <h1>Evaluación al Agua de Mina</h1>
     </header>
 
     <section id="formulario">
@@ -18,37 +17,37 @@
 
         <form id="formulario">
             <label for="ph">pH:</label>
-            <input type="number" id="ph" name="ph" required>
+            <input type="number" id="ph" name="ph" step="0.01" required>
 
             <label for="sst">SST (mg/L):</label>
-            <input type="number" id="sst" name="sst" required>
+            <input type="number" id="sst" name="sst" step="0.01" required>
 
             <label for="aceitesygrasas">Aceites y Grasas (mg/L):</label>
-            <input type="number" id="aceitesygrasas" name="aceitesygrasas" required>
+            <input type="number" id="aceitesygrasas" name="aceitesygrasas" step="0.01" required>
 
             <label for="cobre">Cobre Total (mg/L):</label>
-            <input type="number" id="cobre" name="cobre" required>
+            <input type="number" id="cobre" name="cobre" step="0.01" required>
 
             <label for="hierro">Hierro Total (mg/L):</label>
-            <input type="number" id="hierro" name="hierro" required>
+            <input type="number" id="hierro" name="hierro" step="0.01" required>
 
             <label for="zinc">Zinc Total (mg/L):</label>
-            <input type="number" id="zinc" name="zinc" required>
+            <input type="number" id="zinc" name="zinc" step="0.01" required>
 
             <label for="arsenico">Arsénico Total (mg/L):</label>
-            <input type="number" id="arsenico" name="arsenico" required>
+            <input type="number" id="arsenico" name="arsenico" step="0.01" required>
 
             <label for="cadmio">Cadmio Total (mg/L):</label>
-            <input type="number" id="cadmio" name="cadmio" required>
+            <input type="number" id="cadmio" name="cadmio" step="0.01" required>
 
             <label for="cromo">Cromo Hexavalente (mg/L):</label>
-            <input type="number" id="cromo" name="cromo" required>
+            <input type="number" id="cromo" name="cromo" step="0.01" required>
 
             <label for="mercurio">Mercurio Total (mg/L):</label>
-            <input type="number" id="mercurio" name="mercurio" required>
+            <input type="number" id="mercurio" name="mercurio" step="0.01" required>
 
             <label for="cianuro">Cianuro Total (mg/L):</label>
-            <input type="number" id="cianuro" name="cianuro" required>
+            <input type="number" id="cianuro" name="cianuro" step="0.01" required>
 
             <button type="submit" id="evaluarBtn">Evaluar</button>
         </form>
@@ -68,7 +67,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 Evaluación del Agua de Mina | Todos los derechos reservados</p>
+        <p>&copy; 2025 Evaluación al Agua de Mina | Todos los derechos reservados</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -76,4 +75,3 @@
 
 </body>
 </html>
-
