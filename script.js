@@ -1,192 +1,98 @@
-document.getElementById("formulario").addEventListener("submit", function(event) {
-    event.preventDefault();
+// Variables globales para guardar las instancias de los gráficos y poder actualizarlos
+let charts = {};
 
-    // Obtener valores del formulario
-    const ph = parseFloat(document.getElementById("ph").value);
-    const sst = parseFloat(document.getElementById("sst").value);
-    const aceitesygrasas = parseFloat(document.getElementById("aceitesygrasas").value);
-    const cobre = parseFloat(document.getElementById("cobre").value);
-    const hierro = parseFloat(document.getElementById("hierro").value);
-    const zinc = parseFloat(document.getElementById("zinc").value);
-    const arsenico = parseFloat(document.getElementById("arsenico").value);
-    const cadmio = parseFloat(document.getElementById("cadmio").value);
-    const cromo = parseFloat(document.getElementById("cromo").value);
-    const mercurio = parseFloat(document.getElementById("mercurio").value);
-    const cianuro = parseFloat(document.getElementById("cianuro").value);
+function evaluar() {
+    // 1. OBTENER VALORES
+    const ph = parseFloat(document.getElementById('ph').value);
+    const sst = parseFloat(document.getElementById('sst').value);
+    const aceites = parseFloat(document.getElementById('aceites').value);
+    const cobre = parseFloat(document.getElementById('cobre').value);
+    const hierro = parseFloat(document.getElementById('hierro').value);
+    const zinc = parseFloat(document.getElementById('zinc').value);
+    const arsenico = parseFloat(document.getElementById('arsenico').value);
+    const cadmio = parseFloat(document.getElementById('cadmio').value);
+    const cromo = parseFloat(document.getElementById('cromo').value);
+    const mercurio = parseFloat(document.getElementById('mercurio').value);
+    const cianuro = parseFloat(document.getElementById('cianuro').value);
 
-    // Evaluar parámetros físicoquímicos, metales esenciales, compuestos tóxicos
-    const resultadosFisicoquimicos = evaluarFisicoquimicos(ph, sst, aceitesygrasas);
-    const resultadosMetales = evaluarMetalesesenciales(cobre, hierro, zinc);
-    const resultadosToxicos = evaluarCompuestostoxicos(arsenico, cadmio, cromo, mercurio, cianuro);
+    // 2. LÓGICA DE EVALUACIÓN (Traducción de tu Python)
+    let resultados = "=== RESULTADOS DEL ANÁLISIS SEGÚN LMP ===\n\n";
 
-    // Mostrar resultados en la página
-    let resultadosTexto = "=== RESULTADOS DEL ANÁLISIS SEGÚN LMP ===\n\n";
-    resultadosTexto += "--- Parámetros Físicoquímicos ---\n" + resultadosFisicoquimicos.join("\n") + "\n\n";
-    resultadosTexto += "--- Metales esenciales ---\n" + resultadosMetales.join("\n") + "\n\n";
-    resultadosTexto += "--- Compuestos Tóxicos ---\n" + resultadosToxicos.join("\n");
+    // Físicoquímicos (Corregido rango lógico de pH)
+    resultados += "--- Parámetros Físicoquímicos ---\n";
+    resultados += (ph >= 6 && ph <= 9) ? "✅ pH adecuado\n" : "⚠️ pH fuera de rango\n";
+    resultados += (sst <= 20) ? "✅ SST dentro del límite\n" : "⚠️ SST elevado\n";
+    resultados += (aceites <= 50) ? "✅ Aceites y Grasas ok\n" : "⚠️ Aceites y Grasas elevado\n";
 
-    document.getElementById("textResultados").textContent = resultadosTexto;
+    // Metales
+    resultados += "\n--- Metales esenciales ---\n";
+    resultados += (cobre <= 0.5) ? "✅ Cobre Total ok\n" : "⚠️ Cobre Total elevado\n";
+    resultados += (hierro <= 2) ? "✅ Hierro (Disuelto) ok\n" : "⚠️ Hierro (Disuelto) elevado\n";
+    resultados += (zinc <= 1.5) ? "✅ Zinc Total ok\n" : "⚠️ Zinc Total alto\n";
 
-    // Graficar resultados
-    graficar(ph, sst, aceitesygrasas, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro);
-});
+    // Tóxicos
+    resultados += "\n--- Compuestos Tóxicos ---\n";
+    resultados += (arsenico <= 0.1) ? "✅ Arsénico Total ok\n" : "⚠️ Arsénico Total elevado\n";
+    resultados += (cadmio <= 0.05) ? "✅ Cadmio Total ok\n" : "⚠️ Cadmio Total elevado\n";
+    resultados += (cromo <= 0.1) ? "✅ Cromo Hexavalente ok\n" : "⚠️ Cromo Hexavalente elevado\n";
+    resultados += (mercurio <= 0.002) ? "✅ Mercurio Total ok\n" : "⚠️ Mercurio Total elevado\n";
+    resultados += (cianuro <= 1) ? "✅ Cianuro Total ok\n" : "⚠️ Cianuro Total elevado\n";
 
-// Funciones de evaluación
-function evaluarFisicoquimicos(ph, sst, aceitesygrasas) {
-    let resultados = [];
-    if (ph >= 5 && ph <= 6) resultados.push("pH adecuado");
-    else resultados.push("pH fuera de rango");
+    // Mostrar texto
+    document.getElementById('textResult').innerText = resultados;
+
+    // 3. GRAFICAR
+    actualizarGraficas([ph, sst, aceites, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro]);
+}
+
+function actualizarGraficas(dataValues) {
+    const labels = ["pH", "SST", "Aceites", "Cobre", "Hierro", "Zinc", "As", "Cd", "Cr", "Hg", "CN"];
     
-    if (sst <= 20) resultados.push("SST dentro del límite");
-    else resultados.push("SST elevado");
-
-    if (aceitesygrasas <= 50) resultados.push("Aceites y Grasas dentro del límite");
-    else resultados.push("Aceites y Grasas elevados");
-
-    return resultados;
-}
-
-function evaluarMetalesesenciales(cobre, hierro, zinc) {
-    let resultados = [];
-    if (cobre <= 0.5) resultados.push("Cobre dentro del límite");
-    else resultados.push("Cobre elevado");
-    
-    if (hierro <= 2) resultados.push("Hierro dentro del límite");
-    else resultados.push("Hierro elevado");
-
-    if (zinc <= 1.5) resultados.push("Zinc dentro del límite");
-    else resultados.push("Zinc elevado");
-
-    return resultados;
-}
-
-function evaluarCompuestostoxicos(arsenico, cadmio, cromo, mercurio, cianuro) {
-    let resultados = [];
-    if (arsenico <= 0.1) resultados.push("Arsénico dentro del límite");
-    else resultados.push("Arsénico elevado");
-
-    if (cadmio <= 0.05) resultados.push("Cadmio dentro del límite");
-    else resultados.push("Cadmio elevado");
-
-    if (cromo <= 0.1) resultados.push("Cromo dentro del límite");
-    else resultados.push("Cromo elevado");
-
-    if (mercurio <= 0.002) resultados.push("Mercurio dentro del límite");
-    else resultados.push("Mercurio elevado");
-
-    if (cianuro <= 1) resultados.push("Cianuro dentro del límite");
-    else resultados.push("Cianuro elevado");
-
-    return resultados;
-}
-
-// Esta función se llama cuando se envía el formulario y se deben mostrar los resultados
-function graficar(ph, sst, aceitesygrasas, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro) {
-    // Datos para los gráficos
-    const parametros = ["pH", "SST", "Aceites y Grasas", "Cobre", "Hierro", "Zinc", "Arsénico", "Cadmio", "Cromo", "Mercurio", "Cianuro"];
-    const valores = [ph, sst, aceitesygrasas, cobre, hierro, zinc, arsenico, cadmio, cromo, mercurio, cianuro];
-
-    // Gráfico de barras
-    new Chart(document.getElementById("graficoBarras"), {
-        type: 'bar',
+    // Configuración común
+    const commonConfig = (type, label, color, bgColor) => ({
+        type: type,
         data: {
-            labels: parametros,
+            labels: labels,
             datasets: [{
-                label: 'Concentración (mg/L)',
-                data: valores,
-                backgroundColor: 'skyblue',
-                borderColor: 'blue',
-                borderWidth: 1
+                label: label,
+                data: dataValues,
+                borderColor: color,
+                backgroundColor: bgColor,
+                borderWidth: 1,
+                pointRadius: 5 // Para scatter/line
             }]
         },
-        options: {
-            scales: {
-                y: { beginAtZero: true }
-            },
-            responsive: true,
-            plugins: {
-                legend: { display: true }
-            }
-        }
+        options: { responsive: true, maintainAspectRatio: false }
     });
 
-    // Gráfico de líneas
-    new Chart(document.getElementById("graficoLineas"), {
-        type: 'line',
-        data: {
-            labels: parametros,
-            datasets: [{
-                label: 'Concentración (mg/L)',
-                data: valores,
-                borderColor: 'orange',
-                backgroundColor: 'transparent',
-                fill: false,
-                borderWidth: 2,
-                tension: 0.3
-            }]
-        },
-        options: {
-            scales: {
-                y: { beginAtZero: true }
-            },
-            responsive: true
-        }
-    });
+    // Destruir gráficas anteriores si existen para redibujar
+    if (charts.bar) charts.bar.destroy();
+    if (charts.line) charts.line.destroy();
+    if (charts.scatter) charts.scatter.destroy();
+    if (charts.hbar) charts.hbar.destroy();
 
-    // Gráfico de dispersión (scatter)
-    new Chart(document.getElementById("graficoDispersion"), {
-        type: 'scatter',
-        data: {
-            labels: parametros,
-            datasets: [{
-                label: 'Concentración (mg/L)',
-                data: valores.map((value, index) => ({ x: index, y: value })),
-                backgroundColor: 'green',
-                borderColor: 'green',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                x: {
-                    ticks: { autoSkip: false }
-                },
-                y: { beginAtZero: true }
-            },
-            responsive: true
-        }
-    });
+    // 1. Gráfico de Barras
+    const ctx1 = document.getElementById('chartBar').getContext('2d');
+    charts.bar = new Chart(ctx1, commonConfig('bar', 'Concentración (Barras)', 'rgba(54, 162, 235, 1)', 'rgba(54, 162, 235, 0.5)'));
 
-    // Gráfico de barras horizontales
-    new Chart(document.getElementById("graficoBarrasHorizontales"), {
-        type: 'bar',
-        data: {
-            labels: parametros,
-            datasets: [{
-                label: 'Concentración (mg/L)',
-                data: valores,
-                backgroundColor: 'lightcoral',
-                borderColor: 'red',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            indexAxis: 'y',  // Para barras horizontales
-            scales: {
-                x: { beginAtZero: true }
-            },
-            responsive: true
-        }
-    });
+    // 2. Gráfico de Líneas
+    const ctx2 = document.getElementById('chartLine').getContext('2d');
+    charts.line = new Chart(ctx2, commonConfig('line', 'Concentración (Líneas)', 'orange', 'transparent'));
+
+    // 3. Gráfico de Dispersión (Scatter)
+    // En Chart.js scatter requiere coordenadas x/y, pero podemos simularlo con 'line' y showLine: false
+    let scatterConfig = commonConfig('line', 'Dispersión', 'green', 'green');
+    scatterConfig.data.datasets[0].showLine = false; 
+    const ctx3 = document.getElementById('chartScatter').getContext('2d');
+    charts.scatter = new Chart(ctx3, scatterConfig);
+
+    // 4. Gráfico de Barras Horizontales
+    let hBarConfig = commonConfig('bar', 'Concentración (Horizontal)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 0.5)');
+    hBarConfig.options.indexAxis = 'y'; // Esto lo hace horizontal
+    const ctx4 = document.getElementById('chartHBar').getContext('2d');
+    charts.hbar = new Chart(ctx4, hBarConfig);
 }
 
-            }]
-        },
-        options: {
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
-}
+// Ejecutar una evaluación inicial al cargar
+window.onload = evaluar;
 
